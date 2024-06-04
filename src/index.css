@@ -1,0 +1,7 @@
+body{
+    display: flex;
+    justify-content: center;
+    height: auto;
+    margin-top: 50px;
+    font-family:'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+}

@@ -1,0 +1,15 @@
+.filtro{
+    padding-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+.radio-buttons {
+    display: flex;
+    gap: 15px;
+}
+.radio-button > input{
+    cursor: pointer;
+}
+.filtro button{
+    cursor: pointer;
+}
