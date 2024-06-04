@@ -1,7 +1,7 @@
 import { useState } from "react";
 import "./Footer.css";
 import { type ListOfTodos, type Todo } from "../types";
-import swal from 'sweetalert'
+import sweetAlert from 'sweetalert'
 interface Props {
   check: (elm: string) => void;
   todos: ListOfTodos;
@@ -21,19 +21,19 @@ export const Footer: React.FC<Props> = ({ check, todos, setTodos }) => {
   function handleClear() {
     
     if(todos.length === 0)
-        swal("No hay elementos")
-    swal({
+        sweetAlert("No hay elementos")
+    sweetAlert({
         title: "Estas seguro?",
         text: "Una vez elminado, no se ra capaz de recuperar la informacion!",
         icon: "warning",
-        buttons: true,
+        buttons: [true,true],
         dangerMode: true
       })
       .then((willDelete) => {
         if(willDelete && radios.get('todos')){
             setTodos([])
             localStorage.setItem('tasks', JSON.stringify([]))        
-            swal("Las tareas han sido eliminadas con exito", {
+            sweetAlert("Las tareas han sido eliminadas con exito", {
                 icon: "success",
             });
         }
@@ -47,7 +47,7 @@ export const Footer: React.FC<Props> = ({ check, todos, setTodos }) => {
               setTodos(new_todos)
               console.log(new_todos)
               localStorage.setItem('tasks', JSON.stringify(new_todos))        
-          swal("La tarea ha sido eliminada con exito", {
+          sweetAlert("La tarea ha sido eliminada con exito", {
             icon: "success",
           });
         }
@@ -62,22 +62,22 @@ export const Footer: React.FC<Props> = ({ check, todos, setTodos }) => {
               )
               setTodos(new_todos)
               localStorage.setItem('tasks', JSON.stringify(new_todos))        
-          swal("La tarea ha sido eliminada con exito", {
+          sweetAlert("La tarea ha sido eliminada con exito", {
             icon: "success",
           });
         }
         else {
-          swal("Tu informacion esta segura");
+          sweetAlert("Tu informacion esta segura");
         }
       });
   }
   function handleClearCompleted() {
 
-    swal({
+    sweetAlert({
         title: "Estas seguro?",
         text: "Una vez elminado, no se ra capaz de recuperar la informacion!",
         icon: "warning",
-        buttons: true,
+        buttons: [true,true],
         dangerMode: true,
       })
       .then((willDelete) => {
@@ -91,12 +91,12 @@ export const Footer: React.FC<Props> = ({ check, todos, setTodos }) => {
               )
               setTodos(new_todos)
               localStorage.setItem('tasks', JSON.stringify(new_todos))        
-          swal("Las tareas han sido eliminadas con exito!", {
+          sweetAlert("Las tareas han sido eliminadas con exito!", {
             icon: "success",
           });
         }
         else {
-          swal("Tu informacion esta segura");
+          sweetAlert("Tu informacion esta segura");
         }
       });
     radios.keys
