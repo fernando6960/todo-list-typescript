@@ -8,7 +8,10 @@ function App():JSX.Element {
   const [todos, setTodos] = useState(data === null? []: data)
   return (
     <>
-      <h1>TODO con Typescript</h1>
+      <div className='title'>
+        <h1>TODO con Typescript</h1>
+        <img src="/typescript.svg" alt="Sin Imagen"/>
+      </div>
       <InputTodo todos={todos} setTodos={setTodos}/>
       <Todos todos={todos} setTodos={setTodos}></Todos>
     </>
