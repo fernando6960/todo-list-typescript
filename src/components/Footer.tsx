@@ -9,14 +9,17 @@ interface Props {
 }
 
 export const Footer: React.FC<Props> = ({ check, todos, setTodos }) => {
-  const [radios, setRadios] = useState([true, false, false]);
-  const states = ["todos", "completados", "sin completar"] as const;
+  const [radios, setRadios] = useState(new Map([["todos",true],["completados",false],["sin completar", false]]));
   function handleOnChange(e: React.ChangeEvent<HTMLInputElement>) {
-    const newRadios = states.map((state) => state === e.target.value);
-    setRadios(newRadios);
-    check(e.target.value);
+    const new_radios = new Map(radios)
+    for(const [key,] of radios)
+        new_radios.set(key, false)
+     new_radios.set(e.target.value, true)
+     setRadios(new_radios);
+     check(e.target.value);
   }
   function handleClear() {
+    
     if(todos.length === 0)
         swal("No hay elementos")
     swal({
@@ -27,17 +30,32 @@ export const Footer: React.FC<Props> = ({ check, todos, setTodos }) => {
         dangerMode: true
       })
       .then((willDelete) => {
-        if(willDelete && radios[0]){
+        if(willDelete && radios.get('todos')){
             setTodos([])
             localStorage.setItem('tasks', JSON.stringify([]))        
             swal("Las tareas han sido eliminadas con exito", {
                 icon: "success",
             });
         }
-        else if (willDelete) {
+        else if (willDelete && radios.get('completados')) {
             const new_todos: ListOfTodos = todos.reduce(
                 (acc: ListOfTodos, todo: Todo) => {
-                  if() acc.push(todo);
+                  if(!todo.completed) 
+                    acc.push(todo);
+                  return acc;
+                },[])
+              setTodos(new_todos)
+              console.log(new_todos)
+              localStorage.setItem('tasks', JSON.stringify(new_todos))        
+          swal("La tarea ha sido eliminada con exito", {
+            icon: "success",
+          });
+        }
+        else if (willDelete && radios.get('sin completar')) {
+            const new_todos: ListOfTodos = todos.reduce(
+                (acc: ListOfTodos, todo: Todo) => {
+                  if(todo.completed) 
+                    acc.push(todo);
                   return acc;
                 },
                 []
@@ -73,7 +91,7 @@ export const Footer: React.FC<Props> = ({ check, todos, setTodos }) => {
               )
               setTodos(new_todos)
               localStorage.setItem('tasks', JSON.stringify(new_todos))        
-          swal("La tarea ha sido eliminada con exito", {
+          swal("Las tareas han sido eliminadas con exito!", {
             icon: "success",
           });
         }
@@ -81,19 +99,19 @@ export const Footer: React.FC<Props> = ({ check, todos, setTodos }) => {
           swal("Tu informacion esta segura");
         }
       });
-    
+    radios.keys
   }
   return (
     <footer className="filtro">
       <div className="radio-buttons">
-        {states.map((elm, index) => (
+        {[...radios.keys()].map((elm, index) => (
           <div className="radio-button" key={index + "" + elm}>
             <input
               type="radio"
               id={elm}
               value={elm}
               onChange={handleOnChange}
-              checked={radios[index]}
+              checked={radios.get(elm)}
             />
             <label htmlFor={elm}>{elm}</label>
           </div>
